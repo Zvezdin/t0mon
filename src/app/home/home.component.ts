@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
 
 @Component({
 	selector: 'app-home',
@@ -6,17 +7,74 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	private first_graph: String = "";
-	private second_graph: String = "";
+	private first_graph: string = "";
+	private second_graph: string = "";
+	private jobs_json: any = undefined;
+	private hosts_json: any = undefined;
+	private running_count: number
+	private pending_count: number;
+	private unknown_count: number;
 
 	title = 'the best graph thing that ever existed';
 
-	constructor(){
+	constructor(private http: HttpClient){
 
 	}
 
 	ngOnInit(): void {
-		this.first_graph = 'https://bgt0mon.web.cern.ch/bgt0mon/data/icon.png';
+		this.first_graph = 'data/icon.png';
 		this.second_graph = this.first_graph;
+
+		var self = this;
+
+		this.loadJSON('data/jobs.json', data => {
+			this.jobs_json = data;
+		});
+		this.loadJSON('data/hosts.json', data => {
+			this.hosts_json = data;
+		});
+	}
+
+	loadJSON(path: string, callback) {
+		this.http.get(path).subscribe(data => {
+			// Read the result field from the JSON response.
+			console.log("Got JSON:", data);
+
+			callback(data);
+
+			this.onJSONLoaded();
+		});
+	}
+
+	onJSONLoaded() {
+		if(this.jobs_json != undefined && this.hosts_json != undefined){ //if both of our JSONs are loaded, parse them.
+			this.parseJSON();
+		}
+	}
+
+	parseJSON(){
+		this.parseJobs();
+		this.parseHosts();
+	}
+
+	parseJobs() {
+		var running: number = 0, pending: number = 0, unknown: number = 0;
+
+
+		this.jobs_json.forEach(element => {
+			running += element.jobs.running;
+			pending += element.jobs.pending;
+			unknown += element.jobs.unknown;
+		});
+
+		this.running_count = running;
+		this.pending_count = pending;
+		this.unknown_count = unknown;
+
+		console.log(running, pending, unknown);
+	}
+
+	parseHosts() {
+
 	}
 }
