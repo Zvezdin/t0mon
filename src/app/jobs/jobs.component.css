@@ -1,0 +1,7 @@
+.overflow {
+    border: solid 2px blue;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 50px;
+}

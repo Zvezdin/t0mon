@@ -1,0 +1,33 @@
+<div style="display: block">
+	<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+		<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+		<input #gb type="text" pInputText size="50" placeholder="Global Filter">
+	</div>
+
+	<p-dataTable [value]="jobs" [rows]="10" [paginator]="true" [responsive]="true" [globalFilter]="gb" #dt>
+		<p-header>List of Jobs</p-header>
+		<p-column field="JOBID" [sortable]="true" header="Job ID"></p-column>
+		<p-column field="USER" [sortable]="true" header="User"></p-column>
+		<p-column field="STAT" [sortable]="true" header="Status"></p-column>
+		<p-column field="QUEUE" [sortable]="true" header="Queue"></p-column>
+		<p-column field="FROM_HOST" [sortable]="true" header="From host" [style]="{'text-overflow':'ellipsis', 'overflow':'hidden'}"></p-column>
+		<p-column field="EXEC_HOST" [sortable]="true" header="Exec host" [style]="{'text-overflow':'ellipsis', 'overflow':'hidden'}"></p-column>
+		<p-column field="JOB_NAME" [sortable]="true" header="Job name" [style]="{'text-overflow':'ellipsis', 'overflow':'hidden'}"></p-column>
+		<p-column field="SUBMIT_TIME" [sortable]="true" header="Submit time"></p-column>
+		<!--<p-column field="USER" header="User" [filter]="true" filterMatchMode="equals">
+			<ng-template pTemplate="filter" let-col>
+					<p-dropdown [options]="users" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+			</ng-template>
+		</p-column>-->
+		<!--<p-column field="color" header="Color (Custom)" [filter]="true" filterMatchMode="in">
+				<ng-template pTemplate="filter" let-col>
+						<p-multiSelect [options]="colors" defaultLabel="All Colors" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
+				</ng-template>
+		</p-column>-->
+		<p-column>
+			<template let-job="rowData" pTemplate="body">
+				<button md-raised-button (click) = gotoDetail(job)>Details</button>
+			</template>
+		</p-column>
+	</p-dataTable>
+</div>
