@@ -7,13 +7,13 @@ import { HttpClient } from '@angular/common/http'
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	private first_graph: string = "";
-	private second_graph: string = "";
-	private jobs_json: any = undefined;
-	private hosts_json: any = undefined;
-	private running_count: number
-	private pending_count: number;
-	private unknown_count: number;
+	first_graph: string = "";
+	second_graph: string = "";
+	jobs_json: any = undefined;
+	hosts_json: any = undefined;
+	running_count: number
+	pending_count: number;
+	unknown_count: number;
 
 	title = 'the best graph thing that ever existed';
 

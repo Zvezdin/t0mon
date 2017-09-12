@@ -13,7 +13,7 @@ import { SelectItem } from 'primeng/primeng';
 
 
 export class JobsComponent implements OnInit {
-	private jobs: Array<{/* jobID: string, user: string, stat: string, queue: string, fromHost: string, execHost: string, jobName: string, submitTime: string*/}>;
+	jobs: Array<{/* jobID: string, user: string, stat: string, queue: string, fromHost: string, execHost: string, jobName: string, submitTime: string*/}>;
 
 	private users: SelectItem[];
 	private statuses: SelectItem[];

@@ -38,14 +38,14 @@
 				</ng-template>
 		</p-column>-->
 		<p-column>
-			<template let-job="rowData" pTemplate="body">
+			<ng-template let-job="rowData" pTemplate="body">
 				<button md-raised-button (click) = gotoJobDetail(job.JOBID)>Job Details</button>
-			</template>
+			</ng-template>
 		</p-column>
 		<p-column>
-			<template let-host="rowData" pTemplate="body">
+			<ng-template let-host="rowData" pTemplate="body">
 				<button md-raised-button (click) = gotoHostDetail(host.EXEC_HOST)>Host Details</button>
-			</template>
+			</ng-template>
 		</p-column>
 	</p-dataTable>
 </div>
