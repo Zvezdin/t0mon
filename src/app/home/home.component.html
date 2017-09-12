@@ -17,18 +17,83 @@
 		</div>
 	</div>
 
+	<div class="statuses">
+		<div class="stat-container">
+			<div class="stat-label">
+				Total
+			</div>
+			
+			<div class="stat-row">
+				<div class="stat" routerLink="/jobs" [queryParams]="{statuses: 'RUN,UNKWN', users: 'atlprd56,atlprd21', queues: 'grid_atlas,atlastzprod'}" routerLinkActive="active">
+					{{running_count}} Running
+				</div>
 
-	<div class="stat-container">
-		<div class="stat" routerLink="/jobs" routerLinkActive="active">
-			{{running_count}} Running
+				<div class="stat">
+					{{pending_count}} Pending
+				</div>
+
+				<div class="stat">
+					{{unknown_count}} Unknown
+				</div>
+			</div>
+
+
+			<div *ngFor="let group of jobs_json">
+				<div class="stat-label">
+					Cores {{group.cores}}
+				</div>
+
+				<div class="stat-label">
+					Users
+				</div>
+
+				<div class="stat-row" *ngFor="let user of group.users | keys">
+					<div class="stat">
+						{{user}}
+					</div>
+					<div class="stat" routerLink="/jobs" [queryParams]="{statuses: 'RUN,UNKWN', users: 'atlprd56,atlprd21', queues: 'grid_atlas,atlastzprod'}" routerLinkActive="active">
+						{{group.users[user].running}}
+					</div>
+
+					<div class="stat">
+						{{group.users[user].pending}}
+					</div>
+
+					<div class="stat">
+						{{group.users[user].unknown}}
+					</div>
+				</div>
+
+				<div class="stat-label">
+					Queues
+				</div>
+
+				<div *ngFor="let group of jobs_json">
+					<div class="stat-row" *ngFor="let queue of group.queues | keys">
+						<div class="stat">
+							{{queue}}
+						</div>
+						<div class="stat" routerLink="/jobs" [queryParams]="{statuses: 'RUN,UNKWN', users: 'atlprd56,atlprd21', queues: 'grid_atlas,atlastzprod'}" routerLinkActive="active">
+							{{group.queues[queue].running}}
+						</div>
+
+						<div class="stat">
+							{{group.queues[queue].pending}}
+						</div>
+
+						<div class="stat">
+							{{group.queues[queue].unknown}}
+						</div>
+					</div>
+				</div>
+
+			</div>
 		</div>
 
-		<div class="stat">
-			{{pending_count}} Pending
-		</div>
-
-		<div class="stat">
-			{{unknown_count}} Unknown
+		<div class="stat-container">
+			<div class="stat">
+				Ayy
+			</div>
 		</div>
 	</div>
 

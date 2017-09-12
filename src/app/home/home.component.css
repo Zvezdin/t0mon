@@ -13,14 +13,13 @@
 }
 
 .graph-container {
-	width: 50%;
-
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .graph {
-	width: 25%;
+	width: 50%;
 	margin: 1%;
 }
 
@@ -33,18 +32,37 @@
 	width: 100%;
 
 	display: flex;
+	flex-direction: column;
+
+	justify-content: space-between;
+}
+
+.statuses {
+	display: flex;
+
 	flex-direction: row;
 
 	justify-content: space-between;
 }
 
-.stat-container {
-	width: 20%;
+.stat-label {
+	align-self: center;
+	text-align: center;
+}
 
+.stat-container {
 	display: flex;
 	flex-direction: column;
 
 	align-self: center;
+}
+
+.stat-row {
+	display: flex;
+
+	flex-direction: row;
+
+	justify-content: space-around;
 }
 
 .stat {
@@ -58,5 +76,9 @@
 
 	color: #FFFFFF;
 
+	text-align: center;
+
 	align-self: flex-end;
+
+	flex-grow: 1;
 }

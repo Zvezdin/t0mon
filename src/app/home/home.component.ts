@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.first_graph = 'data/icon.png';
-		this.second_graph = this.first_graph;
+		this.first_graph = 'data/ok valueN.svg';
+		this.second_graph = 'data/closed_valueM.svg';
 
 		var self = this;
 
@@ -49,6 +49,8 @@ export class HomeComponent implements OnInit {
 	onJSONLoaded() {
 		if(this.jobs_json != undefined && this.hosts_json != undefined){ //if both of our JSONs are loaded, parse them.
 			this.parseJSON();
+
+			console.log("Loaded json ", this.jobs_json);
 		}
 	}
 
