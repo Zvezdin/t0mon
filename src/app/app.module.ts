@@ -5,7 +5,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule }   from '@angular/forms';
 
-import { InputTextModule, ButtonModule, DataTableModule, DialogModule, DropdownModule, MultiSelectModule }  from 'primeng/primeng';
+import { InputTextModule, ButtonModule, DataTableModule, DialogModule, MultiSelectModule }  from 'primeng/primeng';
 
 import {MdButtonModule, MdCheckboxModule, MdCardModule} from '@angular/material';
 
@@ -56,7 +56,7 @@ const appRoutes: Routes = [
 			{ enableTracing: false } // <-- if true, for debugging purposes only
 		),
 
-		InputTextModule, ButtonModule, DataTableModule, DialogModule, DropdownModule, MultiSelectModule,
+		InputTextModule, ButtonModule, DataTableModule, DialogModule, MultiSelectModule,
 	
 		MdButtonModule, MdCheckboxModule, MdCardModule,
 	],
