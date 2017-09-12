@@ -1,3 +1,19 @@
-<p>
-  job works!
-</p>
+<div class="background">
+
+	
+		<md-card fxFlex="100%" fxFlex.md="49.5%" fxFlex.sm="100%" fxFlex.gt-md class="social-card">
+			<md-card-title>Details for job #{{job}}</md-card-title>
+			<md-card-content>
+				<div *ngIf="error;then errorPage else content"></div>
+					
+				<ng-template #errorPage>
+					Error loading the current job.
+				</ng-template>
+				<ng-template #content>
+					<div class="content">
+						{{jobFile}}
+					</div>
+				</ng-template>
+			</md-card-content>
+		</md-card>
+</div>

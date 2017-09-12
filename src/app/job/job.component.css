@@ -1,0 +1,13 @@
+.content {
+    white-space: pre-wrap
+}
+
+.background {
+    background-color: #9E9E9E;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px;
+}
