@@ -16,6 +16,7 @@ import { JobComponent } from './job/job.component';
 import { HostsComponent } from './hosts/hosts.component';
 import { HostComponent } from './host/host.component';
 import { KeysPipe } from './keys.pipe';
+import { TxtReaderComponent } from './txt-reader/txt-reader.component';
 
 const appRoutes: Routes = [
 	{ path: 'home', component: HomeComponent },
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
 		JobComponent,
 		HostsComponent,
 		HostComponent,
-		KeysPipe
+		KeysPipe,
+		TxtReaderComponent
 	],
 	imports: [
 		BrowserModule,
