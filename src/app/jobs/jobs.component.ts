@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 
 import { SelectItem } from 'primeng/primeng';
 
+import * as $ from 'jquery';
+
 @Component({
 	selector: 'app-jobs',
 	templateUrl: './jobs.component.html',
@@ -14,6 +16,8 @@ import { SelectItem } from 'primeng/primeng';
 
 export class JobsComponent implements OnInit {
 	jobs: Array<{/* jobID: string, user: string, stat: string, queue: string, fromHost: string, execHost: string, jobName: string, submitTime: string*/}>;
+
+	table: any; //here we will store the variable for the datatable.
 
 	private users: SelectItem[];
 	private statuses: SelectItem[];
@@ -150,6 +154,10 @@ export class JobsComponent implements OnInit {
 				this.selectedCEs = params['CEs'].split(",");
 			}
 		});
+
+		console.log($("#table"), $("#usersSelect"));
+
+		$("#usersSelect").click();
 	}
 	updateRoute(){
 		let params: NavigationExtras = {
@@ -185,5 +193,19 @@ export class JobsComponent implements OnInit {
 	gotoHostDetail(host){
 		console.log(host);
 		this.router.navigate(['/host', host]);
+	}
+
+	printDebug(a: Array<any>){
+		console.log(a);
+	}
+
+	setTable(table: any){
+		this.table = table;
+
+		console.log("Set table", table);
+	}
+
+	sortTable(selectedItems: string[], field: string, filterMatchMode: string){
+		this.table.filter(selectedItems, field, filterMatchMode);
 	}
 }

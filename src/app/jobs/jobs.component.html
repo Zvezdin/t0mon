@@ -4,12 +4,17 @@
 		<input #gb type="text" pInputText size="50" placeholder="Global Filter">
 	</div>
 
-	<p-dataTable [value]="jobs" [rows]="10" [paginator]="true" [responsive]="true" [globalFilter]="gb" #dt>
+	<p-dataTable id="table" [value]="jobs" [rows]="10" [paginator]="true" [responsive]="true" [globalFilter]="gb" #dt>
+
+		<script>
+			"setTable(dt);"
+		</script>
+
 		<p-header>List of Jobs</p-header>
 		<p-column field="JOBID" [sortable]="true" header="Job ID"></p-column>
 		<p-column field="USER" header="User" [filter]="true" filterMatchMode="in">
 			<ng-template pTemplate="filter" let-col>
-				<p-multiSelect [options]="users" [(ngModel)]="selectedUsers" defaultLabel="All" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode); updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
+				<p-multiSelect id="usersSelect" [options]="users" [(ngModel)]="selectedUsers" defaultLabel="All" (onChange)="printDebug([dt, $event, col]); dt.filter($event.value,col.field,col.filterMatchMode); updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
 			</ng-template>
 		</p-column>
 		<p-column field="STAT" header="Status" [filter]="true" filterMatchMode="in">
