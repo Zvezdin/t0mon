@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.first_graph = 'data/ok valueN.svg';
+		this.first_graph = 'data/ok_valueN.svg';
 		this.second_graph = 'data/closed_valueM.svg';
 
 		var self = this;

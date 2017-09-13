@@ -38,56 +38,68 @@
 			</div>
 
 
-			<div *ngFor="let group of jobs_json">
-				<div class="stat-label">
+			<ng-container *ngFor="let group of jobs_json">
+				<div class="stat-delimeter">
 					Cores {{group.cores}}
 				</div>
 
-				<div class="stat-label">
-					Users
-				</div>
+				<ng-container *ngFor="let items of ['peshoo']">
 
-				<div class="stat-row" *ngFor="let user of group.users | keys">
-					<div class="stat">
-						{{user}}
-					</div>
-					<div class="stat" routerLink="/jobs" [queryParams]="{statuses: 'RUN,UNKWN', users: 'atlprd56,atlprd21', queues: 'grid_atlas,atlastzprod'}" routerLinkActive="active">
-						{{group.users[user].running}}
+					<div class="stat-label">
+						Users
 					</div>
 
-					<div class="stat">
-						{{group.users[user].pending}}
-					</div>
+					<ng-container *ngFor="let item of group.users | keys">
+						<div class="stat-row">
+							<div class="stat" routerLink="/jobs" [queryParams]="{users: item}">
+								{{item}}
+							</div>
 
-					<div class="stat">
-						{{group.users[user].unknown}}
-					</div>
-				</div>
-
-				<div class="stat-label">
-					Queues
-				</div>
-
-				<div *ngFor="let group of jobs_json">
-					<div class="stat-row" *ngFor="let queue of group.queues | keys">
-						<div class="stat">
-							{{queue}}
+							<ng-container *ngFor="let type of ['running', 'pending', 'unknown']">
+								<div class="stat" routerLink="/jobs" [queryParams]="{statuses: (type == 'running' ? 'RUN' : (type == 'pending' ? 'PEND' : 'UNKWN')), users: item}" routerLinkActive="active">
+									{{group.users[item][type]}}
+								</div>
+							</ng-container>
 						</div>
-						<div class="stat" routerLink="/jobs" [queryParams]="{statuses: 'RUN,UNKWN', users: 'atlprd56,atlprd21', queues: 'grid_atlas,atlastzprod'}" routerLinkActive="active">
-							{{group.queues[queue].running}}
-						</div>
+					</ng-container>
 
-						<div class="stat">
-							{{group.queues[queue].pending}}
-						</div>
-
-						<div class="stat">
-							{{group.queues[queue].unknown}}
-						</div>
+					<div class="stat-label">
+						Queues
 					</div>
-				</div>
+					
+					<ng-container *ngFor="let item of group.queues | keys">
+						<div class="stat-row">
+							<div class="stat" routerLink="/jobs" [queryParams]="{queues: item}">
+								{{item}}
+							</div>
 
-			</div>
+							<ng-container *ngFor="let type of ['running', 'pending', 'unknown']">
+								<div class="stat" routerLink="/jobs" [queryParams]="{statuses: (type == 'running' ? 'RUN' : (type == 'pending' ? 'PEND' : 'UNKWN')), queues: item}" routerLinkActive="active">
+									{{group.queues[item][type]}}
+								</div>
+							</ng-container>
+						</div>
+					</ng-container>
+
+					<div class="stat-label">
+						Computing Element
+					</div>
+
+					<ng-container *ngFor="let item of group.hosts | keys">
+						<div class="stat-row">
+							<div class="stat" routerLink="/jobs" [queryParams]="{CEs: item}">
+								{{item}}
+							</div>
+
+							<ng-container *ngFor="let type of ['running', 'pending', 'unknown']">
+								<div class="stat" routerLink="/jobs" [queryParams]="{statuses: (type == 'running' ? 'RUN' : (type == 'pending' ? 'PEND' : 'UNKWN')), CEs: item}" routerLinkActive="active">
+									{{group.hosts[item][type]}}
+								</div>
+							</ng-container>
+						</div>
+					</ng-container>
+				</ng-container>
+			</ng-container>
 		</div>
 
 		<div class="stat-container">
