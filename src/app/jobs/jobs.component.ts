@@ -18,10 +18,12 @@ export class JobsComponent implements OnInit {
 	private users: SelectItem[];
 	private statuses: SelectItem[];
 	private queues: SelectItem[];
+	private CEs: SelectItem[];
 
 	private selectedUsers: string[];
 	private selectedStatuses: string[];
 	private selectedQueues: string[];
+	private selectedCEs: string[];
 
 	constructor(
 		private route: ActivatedRoute,
@@ -52,10 +54,12 @@ export class JobsComponent implements OnInit {
 		var users = {};
 		var statuses = {};
 		var queues = {};
+		var CEs = {};
 
 		this.users = [];
 		this.statuses = [];
 		this.queues = [];
+		this.CEs = [];
 
 		for(var i=1; i<jobLines.length; i++){
 			var line = jobLines[i];
@@ -99,6 +103,13 @@ export class JobsComponent implements OnInit {
 							this.queues.push(selectItem);
 						}
 					}
+					if(header[j] == 'FROM_HOST'){
+						if(!CEs.hasOwnProperty(values[j])){
+							CEs[values[j]] = true;
+
+							this.CEs.push(selectItem);
+						}
+					}
 				}
 				else {
 					job[header[header.length-1]] += " " + values[j]; //the last value of each line - SUBMIT_TIME is split into multiple segments, since the date in the data is separated by spaces. This parses the date correctly.
@@ -107,6 +118,8 @@ export class JobsComponent implements OnInit {
 
 			jobs.push(job);
 		}
+
+		console.log(this.CEs);
 
 		this.jobs = jobs;
 		
@@ -133,6 +146,9 @@ export class JobsComponent implements OnInit {
 			if(params.hasOwnProperty('queues')){
 				this.selectedQueues = params['queues'].split(",");
 			}
+			if(params.hasOwnProperty('CEs')){
+				this.selectedCEs = params['CEs'].split(",");
+			}
 		});
 	}
 	updateRoute(){
@@ -140,16 +156,19 @@ export class JobsComponent implements OnInit {
 			queryParams: {},
 		};
 	  
-		if(this.selectedUsers.length > 0){
+		if(this.selectedUsers != undefined && this.selectedUsers.length > 0){
 			params.queryParams['users'] = this.selectedUsers.join(',');
 		}
 
-		if(this.selectedStatuses.length > 0){
+		if(this.selectedStatuses != undefined && this.selectedStatuses.length > 0){
 			params.queryParams['statuses'] = this.selectedStatuses.join(',');
 		}
 
-		if(this.selectedQueues.length > 0){
+		if(this.selectedQueues != undefined && this.selectedQueues.length > 0){
 			params.queryParams['queues'] = this.selectedQueues.join(',');
+		}
+		if(this.selectedCEs != undefined && this.selectedCEs.length > 0){
+			params.queryParams['CEs'] = this.selectedCEs.join(',');
 		}
 
 		// Navigate to the login page with extras

@@ -7,22 +7,26 @@
 	<p-dataTable [value]="jobs" [rows]="10" [paginator]="true" [responsive]="true" [globalFilter]="gb" #dt>
 		<p-header>List of Jobs</p-header>
 		<p-column field="JOBID" [sortable]="true" header="Job ID"></p-column>
-		<p-column field="USER" [sortable]="true" header="User" [filter]="true" filterMatchMode="in">
+		<p-column field="USER" header="User" [filter]="true" filterMatchMode="in">
 			<ng-template pTemplate="filter" let-col>
 				<p-multiSelect [options]="users" [(ngModel)]="selectedUsers" defaultLabel="All" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode); updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
 			</ng-template>
 		</p-column>
-		<p-column field="STAT" [sortable]="true" header="Status" [filter]="true" filterMatchMode="in">
+		<p-column field="STAT" header="Status" [filter]="true" filterMatchMode="in">
 			<ng-template pTemplate="filter" let-col>
 				<p-multiSelect [options]="statuses" [(ngModel)]="selectedStatuses" defaultLabel="All" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode); updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
 			</ng-template>
 		</p-column>
-		<p-column field="QUEUE" [sortable]="true" header="Queue" [filter]="true" filterMatchMode="in">
+		<p-column field="QUEUE" header="Queue" [filter]="true" filterMatchMode="in">
 			<ng-template pTemplate="filter" let-col>
 				<p-multiSelect [options]="queues" [(ngModel)]="selectedQueues" defaultLabel="All" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode); updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
 			</ng-template>
 		</p-column>
-		<p-column field="FROM_HOST" [sortable]="true" header="From host" [style]="{'text-overflow':'ellipsis', 'overflow':'hidden'}"></p-column>
+		<p-column field="FROM_HOST" header="CE" [filter]="true" filterMatchMode="in" [style]="{'width':'200px'}">
+			<ng-template pTemplate="filter" let-col>
+				<p-multiSelect [options]="CEs" [(ngModel)]="selectedCEs" defaultLabel="All" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode); updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
+			</ng-template>
+		</p-column>
 		<p-column field="EXEC_HOST" [sortable]="true" header="Exec host" [style]="{'text-overflow':'ellipsis', 'overflow':'hidden'}"></p-column>
 		<p-column field="CORES" [sortable]="true" header="Core count" ></p-column>
 		<p-column field="JOB_NAME" [sortable]="true" header="Job name" [style]="{'text-overflow':'ellipsis', 'overflow':'hidden'}"></p-column>
