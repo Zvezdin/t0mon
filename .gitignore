@@ -4,6 +4,7 @@ src/data
 build.sh
 upload.sh
 upload-data.sh
+download-data.sh
 
 # compiled output
 /dist

@@ -7,32 +7,45 @@ import { HttpClient } from '@angular/common/http'
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+	hostStatus: string[] = ['ok', 'closed', 'unavail', 'unreach'];
+	jobStatus: string[] = ['RUN', 'PEND', 'UNKWN'];
+
+	jsonPath = 'data/';
+	chartPath = 'data/chart/'
+	jobsChart = "jobs_all_";
+	hostsChart = "host_ok_";
+	chartExtension = ".svg";
+
 	first_graph: string = "";
 	second_graph: string = "";
 	jobs_json: any = undefined;
 	hosts_json: any = undefined;
-	running_count: number
-	pending_count: number;
-	unknown_count: number;
+	charts_json: any = undefined;
+	total: {};
 
-	title = 'the best graph thing that ever existed';
+	maxCores: number = Infinity;
+	minCores: number = -Infinity;
+	coresArray: Array<number>;
+
+	selectedInterval: string = "day";
 
 	constructor(private http: HttpClient){
 
 	}
 
 	ngOnInit(): void {
-		this.first_graph = 'data/ok_valueM.svg';
-		this.second_graph = 'data/closed_valueM.svg';
 
 		var self = this;
 
-		this.loadJSON('data/jobs.json', data => {
+		this.loadJSON(this.jsonPath + 'jobs.json', data => {
 			this.jobs_json = data;
 		});
-		this.loadJSON('data/hosts.json', data => {
+		this.loadJSON(this.jsonPath + 'hosts.json', data => {
 			this.hosts_json = data;
 		});
+		this.loadJSON(this.jsonPath + 'charts.json', data  => {
+			this.charts_json = data;
+		})
 	}
 
 	loadJSON(path: string, callback) {
@@ -47,36 +60,60 @@ export class HomeComponent implements OnInit {
 	}
 
 	onJSONLoaded() {
-		if(this.jobs_json != undefined && this.hosts_json != undefined){ //if both of our JSONs are loaded, parse them.
+		if(this.jobs_json != undefined && this.hosts_json != undefined && this.charts_json != undefined){ //if both of our JSONs are loaded, parse them.
 			this.parseJSON();
-
-			console.log("Loaded json ", this.jobs_json);
 		}
 	}
 
 	parseJSON(){
 		this.parseJobs();
 		this.parseHosts();
+		this.parseCharts();
 	}
 
 	parseJobs() {
 		var running: number = 0, pending: number = 0, unknown: number = 0;
 
+		var total = {};
 
 		this.jobs_json.forEach(element => {
-			running += element.jobs.running;
-			pending += element.jobs.pending;
-			unknown += element.jobs.unknown;
+			for(var key in element.STAT){
+				if(!total.hasOwnProperty(key)) total[key] = element.STAT[key];
+				else total[key] += element.STAT[key];
+			}
 		});
 
-		this.running_count = running;
-		this.pending_count = pending;
-		this.unknown_count = unknown;
-
-		console.log(running, pending, unknown);
+		this.total = total;
+		console.log(total);
 	}
 
 	parseHosts() {
+		this.maxCores = -Infinity;
+		this.minCores = Infinity;
+		
+		this.coresArray = new Array<number>();
 
+		for(var type in this.hosts_json){
+			for(var core in this.hosts_json[type]['list_of_differences_between_max_and_current_jobs_sorted_by_difference_size']){
+				var c = Number(core);
+				this.maxCores = Math.max(c, this.maxCores);
+				this.minCores = Math.min(c, this.minCores);
+
+				if(this.coresArray.indexOf(c) < 0) this.coresArray.push(c);
+			}
+		}
+
+		this.coresArray = this.coresArray.sort((n1,n2) => n1 - n2);
+
+		console.log("Max number of cores is ", this.maxCores, this.minCores, this.coresArray);
+	}
+
+	parseCharts(){
+		this.onIntervalSelected();
+	}
+
+	onIntervalSelected(){
+		this.first_graph = this.chartPath + this.jobsChart + this.selectedInterval + this.chartExtension;
+		this.second_graph = this.chartPath + this.hostsChart + this.selectedInterval + this.chartExtension;
 	}
 }

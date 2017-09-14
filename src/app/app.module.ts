@@ -7,7 +7,7 @@ import { FormsModule }   from '@angular/forms';
 
 import { InputTextModule, ButtonModule, DataTableModule, DialogModule, MultiSelectModule }  from 'primeng/primeng';
 
-import {MdButtonModule, MdCheckboxModule, MdCardModule} from '@angular/material';
+import {MdButtonModule, MdCheckboxModule, MdCardModule, MdSelectModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -62,7 +62,7 @@ const appRoutes: Routes = [
 
 		InputTextModule, ButtonModule, DataTableModule, DialogModule, MultiSelectModule,
 	
-		MdButtonModule, MdCheckboxModule, MdCardModule,
+		MdButtonModule, MdCheckboxModule, MdCardModule, MdSelectModule,
 	],
 		providers: [],
 		bootstrap: [AppComponent]
