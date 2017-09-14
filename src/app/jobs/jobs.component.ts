@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import {  ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router';
 import { Location } from '@angular/common';
+
+import { DataTable, MultiSelectModule }  from 'primeng/primeng';
 
 import { SelectItem } from 'primeng/primeng';
 
@@ -15,9 +17,10 @@ import * as $ from 'jquery';
 
 
 export class JobsComponent implements OnInit {
-	jobs: Array<{/* jobID: string, user: string, stat: string, queue: string, fromHost: string, execHost: string, jobName: string, submitTime: string*/}>;
+	@ViewChild(DataTable)
+	private table: DataTable; //here we will store the variable for the datatable.
 
-	table: any; //here we will store the variable for the datatable.
+	jobs: Array<{/* jobID: string, user: string, stat: string, queue: string, fromHost: string, execHost: string, jobName: string, submitTime: string*/}>;
 
 	private users: SelectItem[];
 	private statuses: SelectItem[];
@@ -123,16 +126,13 @@ export class JobsComponent implements OnInit {
 			jobs.push(job);
 		}
 
-		console.log(this.CEs);
-
 		this.jobs = jobs;
 		
 		var self = this;
 
-		setTimeout(function(){
-			self.parseRoute();
-			console.log("Parsed route");
-		}, 3000)
+		setTimeout(() => {
+			this.parseRoute();
+		})
 	}
 
 	parseRoute(){
@@ -153,12 +153,11 @@ export class JobsComponent implements OnInit {
 			if(params.hasOwnProperty('CEs')){
 				this.selectedCEs = params['CEs'].split(",");
 			}
+
+			this.updateTable();
 		});
-
-		console.log($("#table"), $("#usersSelect"));
-
-		$("#usersSelect").click();
 	}
+
 	updateRoute(){
 		let params: NavigationExtras = {
 			queryParams: {},
@@ -185,6 +184,17 @@ export class JobsComponent implements OnInit {
 		console.log("Route updated")
 	}
 
+	updateTable(){
+		this.sortTable(this.selectedUsers, "USER");
+		this.sortTable(this.selectedQueues, "QUEUE");
+		this.sortTable(this.selectedStatuses, "STAT");
+		this.sortTable(this.selectedCEs, "FROM_HOST");
+	}
+
+	sortTable(selectedItems: string[], field: string, filterMatchMode: string = "in"){
+		this.table.filter(selectedItems, field, filterMatchMode);
+	}
+
 	gotoJobDetail(job){
 		console.log(job, this.selectedUsers, this.selectedQueues, this.selectedStatuses);
 		this.router.navigate(['/job', job]);
@@ -197,15 +207,5 @@ export class JobsComponent implements OnInit {
 
 	printDebug(a: Array<any>){
 		console.log(a);
-	}
-
-	setTable(table: any){
-		this.table = table;
-
-		console.log("Set table", table);
-	}
-
-	sortTable(selectedItems: string[], field: string, filterMatchMode: string){
-		this.table.filter(selectedItems, field, filterMatchMode);
 	}
 }
