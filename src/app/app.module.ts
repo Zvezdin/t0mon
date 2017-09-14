@@ -17,6 +17,7 @@ import { HostsComponent } from './hosts/hosts.component';
 import { HostComponent } from './host/host.component';
 import { KeysPipe } from './keys.pipe';
 import { TxtReaderComponent } from './txt-reader/txt-reader.component';
+import { DatatableVisualizationComponent } from './datatable-visualization/datatable-visualization.component';
 
 const appRoutes: Routes = [
 	{ path: 'home', component: HomeComponent },
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
 		HostsComponent,
 		HostComponent,
 		KeysPipe,
-		TxtReaderComponent
+		TxtReaderComponent,
+		DatatableVisualizationComponent
 	],
 	imports: [
 		BrowserModule,

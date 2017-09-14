@@ -1,0 +1,38 @@
+<div style="display: block">
+    <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+      <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+      <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+    </div>
+  
+    <p-dataTable id="table" [value]="rows" [rows]="10" [paginator]="true" [responsive]="true" [globalFilter]="gb">
+      <p-header>{{tableLabel}}</p-header>
+  
+  
+      <ng-container *ngIf = "rows != undefined && rows.length > 0">
+        <ng-container *ngFor = "let field of rows[0] | keys">
+  
+          <ng-container *ngIf="filterFields.indexOf(field) < 0;then normalColumn else filterColumn"></ng-container>
+  
+          <ng-template #normalColumn>
+            <p-column field="{{field}}" [sortable]="true" header="{{columnLabels[field]}}" [style]="{'text-overflow':'ellipsis', 'overflow':'hidden'}"></p-column>
+          </ng-template>
+  
+          <ng-template #filterColumn>
+            <p-column field="{{field}}" header="{{columnLabels[field]}}" [filter]="true" filterMatchMode="in">
+              <ng-template pTemplate="filter" let-col>
+                <p-multiSelect [options]="items[field]" [(ngModel)]="selectedItems[field]" defaultLabel="All" (onChange)="sortTable($event.value,col.field,col.filterMatchMode); updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
+              </ng-template>
+            </p-column>
+          </ng-template>
+        </ng-container>
+  
+        <ng-container *ngFor = "let button of buttonData">
+          <p-column>
+            <ng-template let-row="rowData" pTemplate="body">
+              <button md-raised-button (click) = "gotoDetail(button.url, row[button.field])">{{button.label}}</button>
+            </ng-template>
+          </p-column>
+        </ng-container>
+      </ng-container>
+    </p-dataTable>
+  </div>
