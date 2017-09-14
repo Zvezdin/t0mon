@@ -123,7 +123,8 @@ export class DatatableVisualizationComponent implements OnInit {
 
 			for(var field in this.selectedItems){
 				if(params.hasOwnProperty(field)){
-					this.selectedItems[field] = params[field].split(",");
+					if(params[field] != undefined && params[field].length > 0)
+						this.selectedItems[field] = params[field].split(",");
 				}
 			}
 
@@ -140,7 +141,8 @@ export class DatatableVisualizationComponent implements OnInit {
 	  
 		for(var field in this.selectedItems){
 			if(this.selectedItems[field] != undefined && this.selectedItems[field].length > 0){
-				params.queryParams[field] = this.selectedItems[field].join(',');
+				if(this.selectedItems[field] != undefined && this.selectedItems[field].length > 0)
+					params.queryParams[field] = this.selectedItems[field].join(',');
 			}
 		}
 
