@@ -1,6 +1,9 @@
 
 # Application-specific ignores
 src/data
+build.sh
+upload.sh
+upload-data.sh
 
 # compiled output
 /dist
