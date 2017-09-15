@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 	jsonPath = 'data/';
 	chartPath = 'data/chart/'
 	jobsChart = "jobs_all_";
-	hostsChart = "host_ok_";
+	hostsChart = "slots_";
 	chartExtension = ".svg";
 
 	first_graph: string = "";
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
 	minCores: number = -Infinity;
 	coresArray: Array<number>;
 
-	selectedInterval: string = "day";
+	selectedInterval: string = "month";
 
 	constructor(private http: HttpClient){
 
@@ -115,5 +115,7 @@ export class HomeComponent implements OnInit {
 	onIntervalSelected(){
 		this.first_graph = this.chartPath + this.jobsChart + this.selectedInterval + this.chartExtension;
 		this.second_graph = this.chartPath + this.hostsChart + this.selectedInterval + this.chartExtension;
+
+		console.log("Loading graphs ", this.first_graph, this.second_graph);
 	}
 }
