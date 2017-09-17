@@ -23,9 +23,11 @@
 				<img class="graph-content" [src]="second_graph" />
 			</div>
 		</div>
-
 	
 		<div class="statuses">
+
+			<!--Job header-->
+
 			<ng-template #jobHeader>
 				<div class="stat-row">
 					<div class="stat">
@@ -41,10 +43,14 @@
 			</ng-template>
 
 			<div class="stat-container">
+
+				<!--Total jobs-->
+
+
 				<div class="stat-label">
 					Total
 				</div>
-				
+
 				<ng-container *ngTemplateOutlet="jobHeader"></ng-container>
 
 				<div class="stat-row">
@@ -59,10 +65,17 @@
 					</ng-container>
 				</div>
 
+				<!--Detailed jobs-->
+
 				<ng-container *ngFor="let group of jobs_json">
+
+					<!--Jobs for each core-->
+
 					<div class="stat-delimeter">
 						Cores {{group.cores}}
 					</div>
+
+					<!--Jobs for each type-->
 
 					<ng-container *ngFor="let type of ['QUEUE', 'FROM_HOST', 'USER']">
 						<div class="stat-label">
@@ -71,11 +84,18 @@
 
 						<ng-container *ngTemplateOutlet="jobHeader"></ng-container>
 						
+						<!--Jobs for each item-->
+
 						<ng-container *ngFor="let item of group[type] | keys">
 							<div class="stat-row">
+
+								<!--Name of item and link-->
+
 								<div class="stat" routerLink="/jobs" [queryParams]="{USER: (type == 'USER' ? item : ''), QUEUE: (type == 'QUEUE' ? item : ''), FROM_HOST: (type == 'FROM_HOST' ? item : '')}">
 									{{item}}
 								</div>
+
+								<!--Jobs for each status-->
 
 								<ng-container *ngFor="let stat of ['RUN', 'PEND', 'UNKWN']">
 									<div class="stat" routerLink="/jobs" [queryParams]="{STAT: stat, USER: (type == 'USER' ? item : ''), QUEUE: (type == 'QUEUE' ? item : ''), FROM_HOST: (type == 'FROM_HOST' ? item : '')}" routerLinkActive="active">
@@ -87,6 +107,8 @@
 					</ng-container>
 				</ng-container>
 			</div>
+
+			<!--Hosts header-->
 
 			<ng-template #hostHeader>
 				<div class="stat-row">
@@ -100,6 +122,8 @@
 					</ng-container>
 				</div>
 			</ng-template>
+
+			<!--Hosts-->
 
 			<div class="stat-container">
 				<div class="stat-label">
@@ -121,6 +145,8 @@
 					</ng-container>
 				</div>
 
+				<!--Total free slots-->
+
 				<div class="stat-label">
 					Total free slots
 				</div>
@@ -130,9 +156,6 @@
 				<ng-container *ngFor="let core of coresArray">
 
 					<div class="stat-row">
-					<!--<div class="stat">
-						Total
-					</div>-->
 						<div class="stat">
 							.
 						</div>
@@ -143,6 +166,8 @@
 						</ng-container>
 					</div>
 				</ng-container>
+
+				<!--Free slots-->
 
 				<div class="stat-label">
 					Free slots

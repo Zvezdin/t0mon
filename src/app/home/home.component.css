@@ -44,9 +44,9 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 
-	flex-wrap: wrap;
-
 	justify-content: space-between;
+
+	align-items: flex-start;
 }
 
 .stat-delimeter {
@@ -80,8 +80,6 @@
 .stat-container {
 	display: flex;
 	flex-direction: column;
-
-	align-self: center;
 
 	max-width: 50%;
 }
