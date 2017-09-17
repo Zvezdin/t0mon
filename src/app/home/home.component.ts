@@ -10,24 +10,23 @@ export class HomeComponent implements OnInit {
 	hostStatus: string[] = ['ok', 'closed', 'unavail', 'unreach'];
 	jobStatus: string[] = ['RUN', 'PEND', 'UNKWN'];
 
-	jsonPath = 'data/';
-	chartPath = 'data/chart/'
-	jobsChart = "jobs_all_";
+	jsonPath = 'data/'; //folder from where to find the jsons
+	chartPath = 'data/chart/' //folder from where to load charts
+	jobsChart = "jobs_all_"; //the default charts on the page
 	hostsChart = "slots_";
 	chartExtension = ".svg";
 
-	first_graph: string = "";
+	first_graph: string = ""; //url for the graph
 	second_graph: string = "";
-	jobs_json: any = undefined;
+	jobs_json: any = undefined; //json objects holding the .json metadata files.
 	hosts_json: any = undefined;
 	charts_json: any = undefined;
-	total: {};
+	totalJobs: {}; //object, holding the total count of the current jobs by status.
 
-	maxCores: number = Infinity;
-	minCores: number = -Infinity;
-	coresArray: Array<number>;
+	coresArray: Array<number>; //an array holding all the possible cores we need to display info about
+	hostCoresArray: Array<number>; //an array holding the core counts for the different types of hosts
 
-	selectedInterval: string = "month";
+	selectedInterval: string = "month"; //interval for the graph dropdown
 
 	constructor(private http: HttpClient){
 
@@ -74,38 +73,41 @@ export class HomeComponent implements OnInit {
 	parseJobs() {
 		var running: number = 0, pending: number = 0, unknown: number = 0;
 
-		var total = {};
+		var totalJobs = {};
 
 		this.jobs_json.forEach(element => {
 			for(var key in element.STAT){
-				if(!total.hasOwnProperty(key)) total[key] = element.STAT[key];
-				else total[key] += element.STAT[key];
+				if(!totalJobs.hasOwnProperty(key)) totalJobs[key] = element.STAT[key];
+				else totalJobs[key] += element.STAT[key];
 			}
 		});
 
-		this.total = total;
-		console.log(total);
+		this.totalJobs = totalJobs;
+		console.log(totalJobs);
 	}
 
-	parseHosts() {
-		this.maxCores = -Infinity;
-		this.minCores = Infinity;
-		
+	parseHosts() {	
 		this.coresArray = new Array<number>();
+		this.hostCoresArray = new Array<number>();
 
 		for(var type in this.hosts_json){
 			for(var core in this.hosts_json[type]['list_of_differences_between_max_and_current_jobs_sorted_by_difference_size']){
 				var c = Number(core);
-				this.maxCores = Math.max(c, this.maxCores);
-				this.minCores = Math.min(c, this.minCores);
 
 				if(this.coresArray.indexOf(c) < 0) this.coresArray.push(c);
+			}
+
+			for(var core in this.hosts_json[type]['list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs']){
+				var c = Number(core);
+
+				if(this.hostCoresArray.indexOf(c) < 0) this.hostCoresArray.push(c);
 			}
 		}
 
 		this.coresArray = this.coresArray.sort((n1,n2) => n1 - n2);
+		this.hostCoresArray = this.hostCoresArray.sort((n1,n2) => n1 - n2);
 
-		console.log("Max number of cores is ", this.maxCores, this.minCores, this.coresArray);
+		console.log("Core arrays:", this.coresArray, this.hostCoresArray);
 	}
 
 	parseCharts(){

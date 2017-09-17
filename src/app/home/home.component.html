@@ -7,7 +7,7 @@
 	Live monitoring of the CERN GRID computers on tier zero
 </div>
 <div class="content">
-	<ng-container *ngIf="total != undefined && jobs_json != undefined && hosts_json != undefined && charts_json != undefined">
+	<ng-container *ngIf="totalJobs != undefined && jobs_json != undefined && hosts_json != undefined && charts_json != undefined">
 		<div class="graph-container">
 			<md-select class="select" placeholder="Interval" [(ngModel)]="selectedInterval" (change) = "onIntervalSelected()">
 				<md-option *ngFor="let interval of charts_json.intervals" [value]="interval">{{interval}}</md-option>
@@ -54,7 +54,7 @@
 
 					<ng-container *ngFor="let key of jobStatus">
 						<div class="stat" routerLink="/jobs" [queryParams]="{STAT: key}" routerLinkActive="active">
-							{{total[key]}}
+							{{totalJobs[key]}}
 						</div>
 					</ng-container>
 				</div>
@@ -142,6 +142,29 @@
 							</div>
 						</ng-container>
 					</div>
+				</ng-container>
+
+				<div class="stat-label">
+					Free slots
+				</div>
+
+				<ng-container *ngTemplateOutlet="hostHeader"></ng-container>
+
+				<ng-container *ngFor="let hostCores of hostCoresArray">
+
+					<ng-container *ngFor="let core of coresArray">
+						<div class="stat-row">
+							<div class="stat">
+								{{hostCores}} cores
+							</div>
+
+							<ng-container *ngFor="let label of hostStatus">
+								<div class="stat">
+									{{ (hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores] != undefined ? ( hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] != undefined ? hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] +  'x' +  core : '.' ) : '.')}}
+								</div>
+							</ng-container>
+						</div>
+					</ng-container>
 				</ng-container>
 			</div>
 		</div>
