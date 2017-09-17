@@ -174,22 +174,30 @@
 				</div>
 
 				<ng-container *ngTemplateOutlet="hostHeader"></ng-container>
-
+				<!--For every core amount that a host has-->
 				<ng-container *ngFor="let hostCores of hostCoresArray">
-
-					<ng-container *ngFor="let core of coresArray">
-						<div class="stat-row">
-							<div class="stat">
-								{{hostCores}} cores
-							</div>
-
-							<ng-container *ngFor="let label of hostStatus">
-								<div class="stat">
-									{{ (hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores] != undefined ? ( hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] != undefined ? hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] +  'x' +  core : '.' ) : '.')}}
+					<!--For every core count where we have free slots-->
+						<ng-container *ngIf="hostsHave(hostCores)">
+							<div class="stat-row">
+								<div class="stat stretch">
+									{{ hostCores + " cores" }}
 								</div>
-							</ng-container>
-						</div>
-					</ng-container>
+
+								<div class="inline-stat-row">
+									<ng-container *ngFor="let core of coresArray">
+										<ng-container *ngIf="hostsHave(hostCores, core)">
+											<div class="stat-row">
+												<ng-container *ngFor="let label of hostStatus">
+													<div class="stat">
+														{{ (hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores] != undefined ? ( hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] != undefined ? hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] +  'x' +  core : '.' ) : '.')}}
+													</div>
+												</ng-container>
+											</div>
+										</ng-container>
+									</ng-container>
+								</div>
+							</div>
+						</ng-container>
 				</ng-container>
 			</div>
 		</div>

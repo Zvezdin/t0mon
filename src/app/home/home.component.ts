@@ -36,6 +36,8 @@ export class HomeComponent implements OnInit {
 
 		var self = this;
 
+		this.usedFreeSlotGroups = {};
+
 		this.loadJSON(this.jsonPath + 'jobs.json', data => {
 			this.jobs_json = data;
 		});
@@ -112,6 +114,36 @@ export class HomeComponent implements OnInit {
 
 	parseCharts(){
 		this.onIntervalSelected();
+	}
+
+	//Finds out if there are free slots in hosts.json which's host has a certain amount of host cores and free cores.
+	hostsHave(hostCores: number, core: number = undefined){
+		var result: boolean = false; //by default, we don't have any data to display here
+
+		for(var i=0; i < this.hostStatus.length; i++){
+			var label = this.hostStatus[i];
+
+			if(this.hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores] != undefined){ //if the host group has this number of host cores
+				if(core == undefined) result = true;
+				
+				if(this.hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] != undefined){ //if the host cores have free cores of size core
+					result = true; //mark that we have data to display
+				}
+			}
+		}
+
+		return result;
+	}
+
+	usedFreeSlotGroups: {};
+
+	getFreeSlotGroup(label: string){
+		console.log("It is called with label", label);
+
+		if(this.usedFreeSlotGroups.hasOwnProperty(label)) return ".";
+		this.usedFreeSlotGroups[label] = true;
+
+		return label;
 	}
 
 	onIntervalSelected(){

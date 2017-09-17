@@ -87,7 +87,15 @@
 .stat-row {
 	display: flex;
 
+	align-items: flex-start;
+
 	flex-direction: row;
+}
+
+.inline-stat-row {
+	display: flex;
+
+	flex-direction: column;
 }
 
 .stat {
@@ -101,11 +109,16 @@
 
 	text-align: center;
 
+	overflow: hidden;
+	text-overflow: ellipsis;
+
 	flex-grow: 1;
 
 	cursor: pointer;
+}
 
-	align-self: flex-end;
+.stat.stretch {
+	align-self: stretch;
 }
 
 .break{
