@@ -8,9 +8,13 @@ import { DataService } from '../data.service';
 	styleUrls: ['./graph-display.component.css']
 })
 export class GraphDisplayComponent implements OnInit {
+	error: boolean = false;
 
 	@Input()
 	charts: any;
+
+	@Input()
+	group: string;
 
 	chartURLs: Array<string>; //urls to the chart graphs
 
@@ -21,8 +25,9 @@ export class GraphDisplayComponent implements OnInit {
 
 	constructor(private data: DataService) { }
 
-	ngOnInit() {		
-		this.charts = this.charts.split(','); //split the string to array of charts with , as the delimeter
+	ngOnInit() {
+		if(this.charts != undefined) //if we have certain charts as an input
+			this.charts = this.charts.split(','); //split the string to array of charts with , as the delimeter
 
 		this.data.loadJSON('charts.json', res =>{
 			this.charts_json = res;
@@ -43,10 +48,16 @@ export class GraphDisplayComponent implements OnInit {
 	updateCharts(){
 		this.chartURLs = [];
 
-		for(var i=0; i<this.charts.length; i++){
-			this.chartURLs.push(this.data.getChartPath(this.charts[i] + this.selectedInterval));
-		}
+		if(this.charts != undefined){
+			for(var i=0; i<this.charts.length; i++){
+				this.chartURLs.push(this.data.getChartPath(this.charts[i] + this.selectedInterval));
+			}
+		} else if(this.group != undefined && this.charts_json[this.group] != undefined){
+			for(var i=0; i<this.charts_json[this.group].length; i++){
+				this.chartURLs.push(this.data.getChartPath(this.charts_json[this.group][i] + this.selectedInterval));
+			}
+		} else this.error = true; //the given chart data to the component was invalid
 
-		console.log("Loading graphs", this.charts, "from URLs", this.chartURLs);
+		console.log("Loading graphs from URLs", this.chartURLs);
 	}
 }
