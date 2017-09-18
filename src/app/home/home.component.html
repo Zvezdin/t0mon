@@ -8,8 +8,14 @@
 </div>
 <div class="content">
 	<ng-container *ngIf="totalJobs != undefined && jobs_json != undefined && hosts_json != undefined">
-		<app-graph-display charts="jobs_all_,slots_"></app-graph-display>
+
+		<app-graph-display charts="{{defaultCharts}}"></app-graph-display>
 	
+		<div class="buttons">
+			<button md-raised-button color="primary" routerLink="/jobs-graphs">Jobs graphs</button>
+			<button md-raised-button color="primary" routerLink="/hosts-graphs">Host graphs</button>
+		</div>
+
 		<div class="statuses">
 
 			<!--Job header-->
@@ -63,7 +69,7 @@
 
 					<!--Jobs for each type-->
 
-					<ng-container *ngFor="let type of ['QUEUE', 'FROM_HOST', 'USER']">
+					<ng-container *ngFor="let type of jobGroups">
 						<div class="stat-label">
 							{{ (type == 'USER' ? "Users" : (type == 'QUEUE' ? "Queues" : "Computing element") ) }}
 						</div>
@@ -83,7 +89,7 @@
 
 								<!--Jobs for each status-->
 
-								<ng-container *ngFor="let stat of ['RUN', 'PEND', 'UNKWN']">
+								<ng-container *ngFor="let stat of jobStatus">
 									<div class="stat" routerLink="/jobs" [queryParams]="{STAT: stat, USER: (type == 'USER' ? item : ''), QUEUE: (type == 'QUEUE' ? item : ''), FROM_HOST: (type == 'FROM_HOST' ? item : '')}" routerLinkActive="active">
 										{{group[type][item][stat]}}
 									</div>

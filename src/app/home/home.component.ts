@@ -11,6 +11,10 @@ export class HomeComponent implements OnInit {
 	hostStatus: string[] = ['ok', 'closed', 'unavail', 'unreach'];
 	jobStatus: string[] = ['RUN', 'PEND', 'UNKWN'];
 
+	defaultCharts = "jobs_all_,slots_"; //all charts that will be displayed in the page by default, separated by a comma
+
+	jobGroups: string[] = ['QUEUE', 'FROM_HOST', 'USER'];
+
 	jobs_json: any = undefined; //json objects holding the .json metadata files.
 	hosts_json: any = undefined;
 	totalJobs: {}; //object, holding the total count of the current jobs by status.
