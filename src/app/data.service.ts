@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http'
 
 @Injectable()
 export class DataService {
-	jsonPath = 'data/'; //folder from where to find the jsons
-	chartPath = 'data/chart/' //folder from where to load charts
-	chartExtension = ".svg";
+	private jsonPath = 'data/'; //folder from where to find the jsons
+	private chartPath = 'data/chart/' //folder from where to load charts
+	private chartExtension = ".svg";
 
 	constructor(private http: HttpClient) { }
 
