@@ -169,12 +169,12 @@
 									{{ hostCores + " cores" }}
 								</div>
 
-								<div class="inline-stat-row">
+								<div class="inline-stat-row stretch">
 									<ng-container *ngFor="let core of coresArray">
 										<ng-container *ngIf="hostsHave(hostCores, core)">
-											<div class="stat-row">
+											<div class="stat-row grow">
 												<ng-container *ngFor="let label of hostStatus">
-													<div class="stat">
+													<div class="stat stretch">
 														{{ (hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores] != undefined ? ( hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] != undefined ? hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] +  'x' +  core : '.' ) : '.')}}
 													</div>
 												</ng-container>

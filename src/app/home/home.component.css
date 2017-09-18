@@ -100,6 +100,10 @@
 	cursor: pointer;
 }
 
-.stat.stretch {
+.stretch {
 	align-self: stretch;
+}
+
+.grow {
+	flex-grow: 1;
 }
