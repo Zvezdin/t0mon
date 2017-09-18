@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+
+import { DataService } from '../data.service';
 
 @Component({
 	selector: 'app-home',
@@ -10,25 +11,14 @@ export class HomeComponent implements OnInit {
 	hostStatus: string[] = ['ok', 'closed', 'unavail', 'unreach'];
 	jobStatus: string[] = ['RUN', 'PEND', 'UNKWN'];
 
-	jsonPath = 'data/'; //folder from where to find the jsons
-	chartPath = 'data/chart/' //folder from where to load charts
-	jobsChart = "jobs_all_"; //the default charts on the page
-	hostsChart = "slots_";
-	chartExtension = ".svg";
-
-	first_graph: string = ""; //url for the graph
-	second_graph: string = "";
 	jobs_json: any = undefined; //json objects holding the .json metadata files.
 	hosts_json: any = undefined;
-	charts_json: any = undefined;
 	totalJobs: {}; //object, holding the total count of the current jobs by status.
 
 	coresArray: Array<number>; //an array holding all the possible cores we need to display info about
 	hostCoresArray: Array<number>; //an array holding the core counts for the different types of hosts
 
-	selectedInterval: string = "month"; //interval for the graph dropdown
-
-	constructor(private http: HttpClient){
+	constructor(private data: DataService){
 
 	}
 
@@ -36,30 +26,18 @@ export class HomeComponent implements OnInit {
 
 		var self = this;
 
-		this.loadJSON(this.jsonPath + 'jobs.json', data => {
+		this.data.loadJSON('jobs.json', data => {
 			this.jobs_json = data;
+			this.onJSONLoaded();
 		});
-		this.loadJSON(this.jsonPath + 'hosts.json', data => {
+		this.data.loadJSON('hosts.json', data => {
 			this.hosts_json = data;
-		});
-		this.loadJSON(this.jsonPath + 'charts.json', data  => {
-			this.charts_json = data;
-		})
-	}
-
-	loadJSON(path: string, callback) {
-		this.http.get(path).subscribe(data => {
-			// Read the result field from the JSON response.
-			console.log("Got JSON:", data);
-
-			callback(data);
-
 			this.onJSONLoaded();
 		});
 	}
 
 	onJSONLoaded() {
-		if(this.jobs_json != undefined && this.hosts_json != undefined && this.charts_json != undefined){ //if both of our JSONs are loaded, parse them.
+		if(this.jobs_json != undefined && this.hosts_json != undefined){ //if both of our JSONs are loaded, parse them.
 			this.parseJSON();
 		}
 	}
@@ -67,7 +45,6 @@ export class HomeComponent implements OnInit {
 	parseJSON(){
 		this.parseJobs();
 		this.parseHosts();
-		this.parseCharts();
 	}
 
 	parseJobs() {
@@ -110,10 +87,6 @@ export class HomeComponent implements OnInit {
 		console.log("Core arrays:", this.coresArray, this.hostCoresArray);
 	}
 
-	parseCharts(){
-		this.onIntervalSelected();
-	}
-
 	//Finds out if there are free slots in hosts.json which's host has a certain amount of host cores and free cores.
 	hostsHave(hostCores: number, core: number = undefined){
 		var result: boolean = false; //by default, we don't have any data to display here
@@ -131,12 +104,5 @@ export class HomeComponent implements OnInit {
 		}
 
 		return result;
-	}
-
-	onIntervalSelected(){
-		this.first_graph = this.chartPath + this.jobsChart + this.selectedInterval + this.chartExtension;
-		this.second_graph = this.chartPath + this.hostsChart + this.selectedInterval + this.chartExtension;
-
-		console.log("Loading graphs ", this.first_graph, this.second_graph);
 	}
 }

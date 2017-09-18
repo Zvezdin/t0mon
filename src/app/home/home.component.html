@@ -7,22 +7,8 @@
 	Live monitoring of the CERN GRID computers on tier zero
 </div>
 <div class="content">
-	<ng-container *ngIf="totalJobs != undefined && jobs_json != undefined && hosts_json != undefined && charts_json != undefined">
-		<div class="graph-container">
-			<md-select class="select" placeholder="Interval" [(ngModel)]="selectedInterval" (change) = "onIntervalSelected()">
-				<md-option *ngFor="let interval of charts_json.intervals" [value]="interval">{{interval}}</md-option>
-			</md-select>
-
-			<div class="break"></div>
-			
-			<div class="graph">
-				<img class="graph-content" [src]="first_graph" />
-			</div>
-
-			<div class="graph">
-				<img class="graph-content" [src]="second_graph" />
-			</div>
-		</div>
+	<ng-container *ngIf="totalJobs != undefined && jobs_json != undefined && hosts_json != undefined">
+		<app-graph-display charts="jobs_all_,slots_"></app-graph-display>
 	
 		<div class="statuses">
 

@@ -12,23 +12,6 @@
 	text-align: center;
 }
 
-.graph-container {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-between;
-}
-
-.graph {
-	width: 50%;
-	margin: 0%;
-}
-
-.graph-content {
-	display: block;
-	width: 100%;
-}
-
 .content {
 	width: 100%;
 
@@ -120,14 +103,3 @@
 .stat.stretch {
 	align-self: stretch;
 }
-
-.break{
-	flex-basis: 100%;
-	width: 0px; 
-	height: 0px; 
-	overflow: hidden;
-  }
-
-  .select {
-	  margin-left: 100px;
-  }
