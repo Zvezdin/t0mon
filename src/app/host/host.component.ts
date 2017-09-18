@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'
-import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+
+import { DataService } from '../data.service';
 
 @Component({
 	selector: 'app-host',
@@ -10,18 +10,17 @@ import { Location } from '@angular/common';
 })
 export class HostComponent implements OnInit {
 	id: string = "";
-	path: string = "data/hosts/"
+	path: string = ""
 
 	constructor(
 		private route: ActivatedRoute,
-		private location: Location,
-		private router: Router,
-		private http: HttpClient,
+		private data: DataService,
 	) { }
 
 	ngOnInit() {
 		this.route.params.subscribe(params => {
 			if(params["id"] != undefined){
+				this.path = this.data.getHostPath();
 				this.id = params["id"];
 			}
 		});

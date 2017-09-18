@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { DataService } from '../data.service';
+
 @Component({
 	selector: 'app-jobs',
 	templateUrl: './jobs.component.html',
@@ -12,12 +14,13 @@ export class JobsComponent implements OnInit {
 	buttonData = [{label: 'Job details', url: '/job', field: 'JOBID'}, {label: 'Host details', url: '/host', field: 'EXEC_HOST'}];
 	columnStyles = {FROM_HOST: "{'width':'200px'}"};
 	tableLabel = "List of jobs";
-	filepath = 'data/jobs/jobs.txt';
-	baseURL = '/jobs';
+	filepath = '';
 
 	constructor(
+		private data: DataService,
 	) { }
 
 	ngOnInit() {
+		this.filepath = this.data.getJobsPath();
 	}
 }

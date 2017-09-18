@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { DataService } from '../data.service';
+
 @Component({
 	selector: 'app-hosts',
 	templateUrl: './hosts.component.html',
@@ -13,12 +15,14 @@ export class HostsComponent implements OnInit {
 	buttonData = [{label: 'Host details', url: '/host', field: 'HOST_NAME'}];
 	columnStyles = {};
 	tableLabel = "List of hosts";
-	filepath = 'data/hosts/hosts.txt';
-	baseURL = '/hosts';
+	filepath = '';
 
-	constructor() { }
+	constructor(
+		private data: DataService,
+	) { }
 
 	ngOnInit() {
+		this.filepath = this.data.getHostsPath();
 	}
 
 }

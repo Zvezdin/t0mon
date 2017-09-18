@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
 import {  ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { DataTable, MultiSelectModule }  from 'primeng/primeng';
-
 import { SelectItem } from 'primeng/primeng';
+
+import { DataService } from '../data.service';
 
 @Component({
 	selector: 'app-datatable-visualization',
@@ -28,16 +28,18 @@ export class DatatableVisualizationComponent implements OnInit {
 	@Input() columnStyles;//mapping field => string, the styles for each column
 	@Input() tableLabel; //label of the table
 	@Input() private filepath; //filepath to the data file
-	@Input() private baseURL; //url of where the component is integrated
+	private baseURL; //url of where the component is integrated
 
 	constructor(
 		private route: ActivatedRoute,
 		private location: Location,
 		private router: Router,
-		private http: HttpClient,
+		private data: DataService,
 	) { }
 
-	ngOnInit() {
+	ngOnInit() {		
+		this.baseURL = this.router.url.substr(0, this.router.url.indexOf('?')); //get the current url and remove the query parameters from it
+
 		this.selectedItems = {};
 		this.items = {};
 
@@ -46,13 +48,10 @@ export class DatatableVisualizationComponent implements OnInit {
 			this.items[this.filterFields[i]] = [];
 		}
 
-		this.loadData(this.onDataLoaded);
+		this.data.loadText(this.filepath, this.onDataLoaded);
 	}
 
 	loadData(callback){
-		this.http.get(this.filepath, {responseType: 'text'} ).subscribe(data => {
-			callback(data);
-		});
 	}
 
 	onDataLoaded = (data:string) => {

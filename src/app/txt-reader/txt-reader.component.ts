@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'
-import { Location } from '@angular/common';
+
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-txt-reader',
@@ -15,10 +14,7 @@ export class TxtReaderComponent implements OnInit {
 	@Input() path: string = "";
 
 	constructor(
-		private route: ActivatedRoute,
-		private location: Location,
-		private router: Router,
-		private http: HttpClient,
+		private data: DataService,
 	) { }
 
 	ngOnInit() {
@@ -26,10 +22,9 @@ export class TxtReaderComponent implements OnInit {
 	}
 
 	getData(path: string, id: string){
-		this.http.get(path+id, {responseType: 'text'} ).subscribe(data => {
-			this.file = data;
-		}, err => {
-			this.error = true;
+		this.data.loadText(path + id, data => {
+			if(data != undefined) this.file = data;
+			else this.error = true;
 		});
 	}
 }
