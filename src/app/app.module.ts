@@ -18,6 +18,9 @@ import { HostComponent } from './host/host.component';
 import { KeysPipe } from './keys.pipe';
 import { TxtReaderComponent } from './txt-reader/txt-reader.component';
 import { DatatableVisualizationComponent } from './datatable-visualization/datatable-visualization.component';
+import { GraphDisplayComponent } from './graph-display/graph-display.component';
+
+import { DataService } from './data.service'
 
 const appRoutes: Routes = [
 	{ path: 'home', component: HomeComponent },
@@ -48,7 +51,8 @@ const appRoutes: Routes = [
 		HostComponent,
 		KeysPipe,
 		TxtReaderComponent,
-		DatatableVisualizationComponent
+		DatatableVisualizationComponent,
+		GraphDisplayComponent
 	],
 	imports: [
 		BrowserModule,
@@ -64,7 +68,7 @@ const appRoutes: Routes = [
 	
 		MdButtonModule, MdCheckboxModule, MdCardModule, MdSelectModule,
 	],
-		providers: [],
+		providers: [DataService],
 		bootstrap: [AppComponent]
 })
 export class AppModule { }
