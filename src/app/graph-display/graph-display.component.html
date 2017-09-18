@@ -1,0 +1,15 @@
+<ng-container *ngIf = "charts_json != undefined && chartURLs != undefined && chartURLs.length > 0">
+	<div class="graph-container">
+		<md-select class="select" placeholder="Interval" [(ngModel)]="selectedInterval" (change) = "updateCharts()">
+			<md-option *ngFor="let interval of charts_json.intervals" [value]="interval">{{interval}}</md-option>
+		</md-select>
+
+		<div class="break"></div>
+		
+		<ng-container *ngFor="let chartURL of chartURLs">
+			<div class="graph">
+				<img class="graph-content" [src]="chartURL" />
+			</div>
+		</ng-container>
+	</div>
+</ng-container>
