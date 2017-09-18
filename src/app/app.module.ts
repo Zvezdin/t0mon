@@ -20,7 +20,9 @@ import { TxtReaderComponent } from './txt-reader/txt-reader.component';
 import { DatatableVisualizationComponent } from './datatable-visualization/datatable-visualization.component';
 import { GraphDisplayComponent } from './graph-display/graph-display.component';
 
-import { DataService } from './data.service'
+import { DataService } from './data.service';
+import { JobsGraphsComponent } from './jobs-graphs/jobs-graphs.component';
+import { HostsGraphsComponent } from './hosts-graphs/hosts-graphs.component'
 
 const appRoutes: Routes = [
 	{ path: 'home', component: HomeComponent },
@@ -28,17 +30,12 @@ const appRoutes: Routes = [
 	{ path: 'hosts', component: HostsComponent },
 	{ path: 'job/:id', component: JobComponent },
 	{ path: 'host/:id', component: HostComponent },
-	//{ path: 'hero/:id',      component: HeroDetailComponent },
-	/*{
-	  path: 'heroes',
-	  component: HeroListComponent,
-	  data: { title: 'Heroes List' }
-	},*/
+	{ path: 'jobs-graphs', component: JobsGraphsComponent },
+	{ path: 'hosts-graphs', component: HostsGraphsComponent },
 	{ path: '',
 	  redirectTo: '/home',
 	  pathMatch: 'full'
 	},
-	//{ path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
@@ -52,7 +49,9 @@ const appRoutes: Routes = [
 		KeysPipe,
 		TxtReaderComponent,
 		DatatableVisualizationComponent,
-		GraphDisplayComponent
+		GraphDisplayComponent,
+		JobsGraphsComponent,
+		HostsGraphsComponent
 	],
 	imports: [
 		BrowserModule,
