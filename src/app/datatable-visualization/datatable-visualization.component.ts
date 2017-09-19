@@ -28,6 +28,7 @@ export class DatatableVisualizationComponent implements OnInit {
 	@Input() columnStyles;//mapping field => string, the styles for each column
 	@Input() tableLabel; //label of the table
 	@Input() private filepath; //filepath to the data file
+	@Input() private differences: Array<{from: string, to: string, field: string}>;
 	private baseURL; //url of where the component is integrated
 
 	constructor(
@@ -107,13 +108,31 @@ export class DatatableVisualizationComponent implements OnInit {
 			rows.push(row);
 		}
 
+		this.addDifferenceFields(rows);
+
 		this.rows = rows;
 
-		console.log(this.items); //debug
+		console.log("Rows", this.rows); //debug
 
 		setTimeout(() => { //we need to wait one tick before we can parse the route and filter the table
 			this.parseRoute();
 		})
+	}
+
+	addDifferenceFields(rows){
+		if(this.differences == undefined) return;
+		
+		console.log("Adding differences", this.differences);
+
+		for(var i=0; i<this.differences.length; i++){
+			var diff = this.differences[i];
+
+			for(var j=0; j<rows.length; j++){
+				var row = rows[j];
+
+				row[diff.field] = row[diff.from] - row[diff.to];
+			}
+		}
 	}
 
 	parseRoute(){
