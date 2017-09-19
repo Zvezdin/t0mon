@@ -23,7 +23,7 @@ export class DatatableVisualizationComponent implements OnInit {
 	private selectedItems: any;
 
 	@Input() filterFields; //the fields for which we want to filter
-	@Input() columnLabels; //mapping field => label, the labels for each column
+	@Input() columns; //mapping field => label, the labels for each column
 	@Input() buttonData; //array of objects with properties label, url and field to display buttons that have a label and navigate to the given url with the data of the field
 	@Input() columnStyles;//mapping field => string, the styles for each column
 	@Input() tableLabel; //label of the table
@@ -38,8 +38,12 @@ export class DatatableVisualizationComponent implements OnInit {
 		private data: DataService,
 	) { }
 
-	ngOnInit() {		
-		this.baseURL = this.router.url.substr(0, this.router.url.indexOf('?')); //get the current url and remove the query parameters from it
+	ngOnInit() {
+		if(this.router.url.indexOf('?') > 0)
+			this.baseURL = this.router.url.substr(0, this.router.url.indexOf('?')); //get the current url and remove the query parameters from it
+		else
+			this.baseURL = this.router.url;
+		console.log("The base url is", this.baseURL);
 
 		this.selectedItems = {};
 		this.items = {};
