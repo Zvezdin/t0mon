@@ -27,7 +27,7 @@
 					</div>
 
 					<ng-container *ngFor="let label of jobStatus">
-						<div class="stat" routerLink="/jobs" [queryParams]="{STAT: label}" routerLinkActive="active">
+						<div class="stat link" routerLink="/jobs" [queryParams]="{STAT: label}" routerLinkActive="active">
 							{{(label == 'RUN' ? "Running": (label == 'PEND' ? "Pending" : "Unknown") ) }}
 						</div>
 					</ng-container>
@@ -51,7 +51,7 @@
 					</div>
 
 					<ng-container *ngFor="let key of jobStatus">
-						<div class="stat" routerLink="/jobs" [queryParams]="{STAT: key}" routerLinkActive="active">
+						<div class="stat link" routerLink="/jobs" [queryParams]="{STAT: key}" routerLinkActive="active">
 							{{totalJobs[key]}}
 						</div>
 					</ng-container>
@@ -83,14 +83,14 @@
 
 								<!--Name of item and link-->
 
-								<div class="stat" routerLink="/jobs" [queryParams]="{USER: (type == 'USER' ? item : ''), QUEUE: (type == 'QUEUE' ? item : ''), FROM_HOST: (type == 'FROM_HOST' ? item : '')}">
+								<div class="stat link" routerLink="/jobs" [queryParams]="{USER: (type == 'USER' ? item : ''), QUEUE: (type == 'QUEUE' ? item : ''), FROM_HOST: (type == 'FROM_HOST' ? item : '')}">
 									{{item}}
 								</div>
 
 								<!--Jobs for each status-->
 
 								<ng-container *ngFor="let stat of jobStatus">
-									<div class="stat" routerLink="/jobs" [queryParams]="{STAT: stat, USER: (type == 'USER' ? item : ''), QUEUE: (type == 'QUEUE' ? item : ''), FROM_HOST: (type == 'FROM_HOST' ? item : '')}" routerLinkActive="active">
+									<div class="stat link" routerLink="/jobs" [queryParams]="{STAT: stat, USER: (type == 'USER' ? item : ''), QUEUE: (type == 'QUEUE' ? item : ''), FROM_HOST: (type == 'FROM_HOST' ? item : '')}" routerLinkActive="active">
 										{{group[type][item][stat]}}
 									</div>
 								</ng-container>
@@ -108,7 +108,7 @@
 						.
 					</div>
 					<ng-container *ngFor="let label of hostStatus">
-						<div class="stat" routerLink="/hosts" [queryParams]="{STATUS: label}">
+						<div class="stat link" routerLink="/hosts" [queryParams]="{STATUS: label}">
 							{{label}}
 						</div>
 					</ng-container>

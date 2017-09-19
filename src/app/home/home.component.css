@@ -104,7 +104,9 @@
 	text-overflow: ellipsis;
 
 	flex-grow: 1;
+}
 
+.link {
 	cursor: pointer;
 }
 
