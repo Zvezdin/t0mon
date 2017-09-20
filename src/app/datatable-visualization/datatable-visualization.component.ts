@@ -68,10 +68,6 @@ export class DatatableVisualizationComponent implements OnInit {
 
 		var rows = new Array(); //the datatable rows
 
-		var items = {}; //used to generate the item list for UI multiselect filters
-
-		for(var i =0; i<this.filterFields.length; i++) items[this.filterFields[i]] = {};
-
 		for(var i=1; i<lines.length; i++){
 			var line = lines[i];
 
@@ -89,20 +85,6 @@ export class DatatableVisualizationComponent implements OnInit {
 						row["CORES"] = hosts.length;
 					}
 					else row[header[j]] = values[j];
-
-					var selectItem = {label: values[j], value: values[j]}; //create a selectItem, which we MAY insert into one of our select dropdowns.
-
-					for(var k=0; k<this.filterFields.length; k++){
-						var field = this.filterFields[k];
-
-						if(header[j] == field){
-							if(!items[field].hasOwnProperty(values[j])){ //if we haven't added that value yet
-								items[field][values[j]] = true; //mark that value as added
-
-								this.items[field].push(selectItem); //add that value to the select dropdown.
-							}
-						}
-					}
 				}
 				else {
 					row[header[header.length-1]] += " " + values[j]; //the last value of each line - SUBMIT_TIME is split into multiple segments, since the date in the data is separated by spaces. This parses the date correctly.
@@ -113,6 +95,7 @@ export class DatatableVisualizationComponent implements OnInit {
 		}
 
 		this.addDifferenceFields(rows);
+		this.createFilters(rows);
 
 		this.rows = rows;
 
@@ -121,6 +104,30 @@ export class DatatableVisualizationComponent implements OnInit {
 		setTimeout(() => { //we need to wait one tick before we can parse the route and filter the table
 			this.parseRoute();
 		})
+	}
+
+	createFilters(rows){
+		var items = {}; //used to generate the item list for UI multiselect filters
+
+		for(var i =0; i<this.filterFields.length; i++) items[this.filterFields[i]] = {};
+
+		for(var i=0; i<rows.length; i++){
+			for(var field in rows[i]){
+				var selectItem = {label: rows[i][field], value: rows[i][field]}; //create a selectItem, which we MAY insert into one of our select dropdowns.
+				
+				for(var k=0; k<this.filterFields.length; k++){
+					var filterField = this.filterFields[k];
+
+					if(field == filterField){
+						if(!items[filterField].hasOwnProperty(rows[i][field])){ //if we haven't added that value yet
+							items[filterField][rows[i][field]] = true; //mark that value as added
+
+							this.items[filterField].push(selectItem); //add that value to the select dropdown.
+						}
+					}
+				}
+			}
+		}
 	}
 
 	addDifferenceFields(rows){
