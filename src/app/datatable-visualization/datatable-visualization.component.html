@@ -14,11 +14,11 @@
 				<ng-container *ngIf="filterFields.indexOf(column.field) < 0;then normalColumn else filterColumn"></ng-container>
 
 				<ng-template #normalColumn>
-					<p-column field="{{column.field}}" [sortable]="true" header="{{column.label}}" [style]="{'text-overflow':'ellipsis', 'overflow':'hidden'}"></p-column>
+					<p-column field="{{column.field}}" [sortable]="true" header="{{column.label}}" [style]="{'word-wrap': 'break-word'}"></p-column>
 				</ng-template>
 
 				<ng-template #filterColumn>
-					<p-column field="{{column.field}}" [sortable]="true" header="{{column.label}}" [filter]="true" filterMatchMode="in">
+					<p-column field="{{column.field}}" [sortable]="true" header="{{column.label}}" [style]="{'word-wrap': 'break-word'}" [filter]="true" filterMatchMode="in">
 						<ng-template pTemplate="filter" let-col>
 							<p-multiSelect [options]="items[column.field]" [(ngModel)]="selectedItems[column.field]" defaultLabel="All" (onChange)="updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
 						</ng-template>
