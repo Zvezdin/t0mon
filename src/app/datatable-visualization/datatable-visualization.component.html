@@ -20,7 +20,7 @@
 				<ng-template #filterColumn>
 					<p-column field="{{column.field}}" header="{{column.label}}" [filter]="true" filterMatchMode="in">
 						<ng-template pTemplate="filter" let-col>
-							<p-multiSelect [options]="items[column.field]" [(ngModel)]="selectedItems[column.field]" defaultLabel="All" (onChange)="sortTable($event.value,col.field,col.filterMatchMode); updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
+							<p-multiSelect [options]="items[column.field]" [(ngModel)]="selectedItems[column.field]" defaultLabel="All" (onChange)="updateRoute()" styleClass="ui-column-filter"></p-multiSelect>
 						</ng-template>
 					</p-column>
 				</ng-template>

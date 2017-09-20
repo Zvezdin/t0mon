@@ -31,7 +31,7 @@ export class HostsComponent implements OnInit {
 		this.columns.push({field: 'JL/U', label: 'JL/U'});
 		this.columns.push({field: 'MAX', label: 'Max'});
 		this.columns.push({field: 'NJOBS', label: 'N Jobs'});
-		this.columns.push({field: 'diff', label: 'Diff'});
+		this.columns.push({field: 'diff', label: 'Difference'});
 		this.columns.push({field: 'RUN', label: 'Run'});
 		this.columns.push({field: 'SSUSP', label: 'SSUSP'});
 		this.columns.push({field: 'USUSP', label: 'USUSP'});

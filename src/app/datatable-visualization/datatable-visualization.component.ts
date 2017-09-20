@@ -56,13 +56,22 @@ export class DatatableVisualizationComponent implements OnInit {
 		this.data.loadText(this.filepath, this.onDataLoaded);
 	}
 
-	loadData(callback){
+	onDataLoaded = (data:string) => {
+
+		var rows = this.createRows(data);
+
+		this.addDifferenceFields(rows);
+		this.createFilters(rows);
+
+		this.rows = rows;
+
+		setTimeout(() => { //we need to wait one tick before we can parse the route and filter the table
+			this.parseRoute();
+		})
 	}
 
-	onDataLoaded = (data:string) => {
+	createRows(data:string): any{
 		var lines: string[] = data.split(/\r?\n/); //split the file into lines
-
-		console.log(lines[0].split(/[ \t]+/), lines[1].split(/[ \t]+/)); //debug
 
 		var header = lines[0].split(/[ \t]+/); //the header, containing the names of the values
 
@@ -84,7 +93,7 @@ export class DatatableVisualizationComponent implements OnInit {
 						row[header[j]] = hosts[0]; //only the unique host ID
 						row["CORES"] = hosts.length;
 					}
-					else row[header[j]] = values[j];
+					else row[header[j]] = isNaN(Number(values[j])) ? values[j] : Number(values[j]); //if the value is of type number, parse it.
 				}
 				else {
 					row[header[header.length-1]] += " " + values[j]; //the last value of each line - SUBMIT_TIME is split into multiple segments, since the date in the data is separated by spaces. This parses the date correctly.
@@ -94,16 +103,7 @@ export class DatatableVisualizationComponent implements OnInit {
 			rows.push(row);
 		}
 
-		this.addDifferenceFields(rows);
-		this.createFilters(rows);
-
-		this.rows = rows;
-
-		console.log("Rows", this.rows); //debug
-
-		setTimeout(() => { //we need to wait one tick before we can parse the route and filter the table
-			this.parseRoute();
-		})
+		return rows;
 	}
 
 	createFilters(rows){
@@ -113,7 +113,7 @@ export class DatatableVisualizationComponent implements OnInit {
 
 		for(var i=0; i<rows.length; i++){
 			for(var field in rows[i]){
-				var selectItem = {label: rows[i][field], value: rows[i][field]}; //create a selectItem, which we MAY insert into one of our select dropdowns.
+				var selectItem = {label: String(rows[i][field]), value: rows[i][field]}; //create a selectItem, which we MAY insert into one of our select dropdowns.
 				
 				for(var k=0; k<this.filterFields.length; k++){
 					var filterField = this.filterFields[k];
@@ -133,7 +133,7 @@ export class DatatableVisualizationComponent implements OnInit {
 	addDifferenceFields(rows){
 		if(this.differences == undefined) return;
 		
-		console.log("Adding differences", this.differences);
+		console.log("Adding difference fields", this.differences);
 
 		for(var i=0; i<this.differences.length; i++){
 			var diff = this.differences[i];
@@ -147,9 +147,7 @@ export class DatatableVisualizationComponent implements OnInit {
 	}
 
 	parseRoute(){
-		this.route.queryParams.subscribe(params => {
-			console.log("Route parameters: ", params);
-
+		this.route.queryParams.subscribe(params => { //this is a subscription, so the code will be executed on any URL change and trigger a table update.
 			for(var field in this.selectedItems){
 				if(params.hasOwnProperty(field)){
 					if(params[field] != undefined && params[field].length > 0)
@@ -157,7 +155,7 @@ export class DatatableVisualizationComponent implements OnInit {
 				}
 			}
 
-			console.log(this.selectedItems);
+			console.log("Prased route with selection", this.selectedItems);
 
 			this.updateTable();
 		});
@@ -188,7 +186,12 @@ export class DatatableVisualizationComponent implements OnInit {
 	}
 
 	sortTable(selectedItems: string[], field: string, filterMatchMode: string = "in"){
-		this.table.filter(selectedItems, field, filterMatchMode);
+		var integerItems = selectedItems.map(function(item){
+			if(!isNaN(Number(item))) return Number(item);
+			return item;
+		});
+
+		this.table.filter(integerItems, field, filterMatchMode);
 	}
 
 	gotoDetail(path: string, file: string){
