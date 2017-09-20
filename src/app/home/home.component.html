@@ -165,31 +165,34 @@
 					Free slots
 				</div>
 
-				<ng-container *ngTemplateOutlet="hostHeader"></ng-container>
 				<!--For every core amount that a host has-->
 				<ng-container *ngFor="let hostCores of hostCoresArray">
 					<!--For every core count where we have free slots-->
-						<ng-container *ngIf="hostsHave(hostCores)">
-							<div class="stat-row">
-								<div class="stat stretch">
-									{{ hostCores + " cores" }}
-								</div>
 
-								<div class="inline-stat-row stretch">
-									<ng-container *ngFor="let core of coresArray">
-										<ng-container *ngIf="hostsHave(hostCores, core)">
-											<div class="stat-row grow">
-												<ng-container *ngFor="let label of hostStatus">
-													<div class="stat stretch">
-														{{ (hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores] != undefined ? ( hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] != undefined ? hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] +  'x' +  core : '.' ) : '.')}}
-													</div>
-												</ng-container>
-											</div>
-										</ng-container>
+					<ng-container *ngIf="hostsHave(hostCores)">
+
+						<div class="stat-delimeter">
+							{{hostCores}} cores
+						</div>
+
+						<ng-container *ngTemplateOutlet="hostHeader"></ng-container>
+
+						<ng-container *ngFor="let core of coresArray">
+							<ng-container *ngIf="hostsHave(hostCores, core)">
+								<div class="stat-row">
+									<div class="stat">
+										.
+									</div>
+
+									<ng-container *ngFor="let label of hostStatus">
+										<div class="stat">
+											{{ (hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores] != undefined ? ( hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] != undefined ? hosts_json[label].list_of_differences_between_max_and_current_jobs_sorted_by_number_of_max_jobs[hostCores][core] +  'x' +  core : '.' ) : '.')}}
+										</div>
 									</ng-container>
 								</div>
-							</div>
+							</ng-container>
 						</ng-container>
+					</ng-container>
 				</ng-container>
 			</div>
 		</div>
