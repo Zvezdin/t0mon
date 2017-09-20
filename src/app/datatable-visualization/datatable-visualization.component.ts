@@ -14,7 +14,7 @@ import { DataService } from '../data.service';
 })
 export class DatatableVisualizationComponent implements OnInit {
 	@ViewChild(DataTable)
-	private table: DataTable; //here we will store the variable for the datatable.
+	table: DataTable; //here we will store the variable for the datatable.
 
 	rows: Array<{}>;
 
