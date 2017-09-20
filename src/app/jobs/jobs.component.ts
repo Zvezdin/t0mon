@@ -23,7 +23,7 @@ export class JobsComponent implements OnInit {
 	ngOnInit() {
 		this.columns = [];
 
-		this.columns.push({field: 'JOBID', label: 'Host name'});
+		this.columns.push({field: 'JOBID', label: 'Job ID'});
 		this.columns.push({field: 'USER', label: 'User'});
 		this.columns.push({field: 'STAT', label: 'Status'});
 		this.columns.push({field: 'QUEUE', label: 'Queue'});
