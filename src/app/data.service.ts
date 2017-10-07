@@ -6,8 +6,8 @@ export class DataService {
 	private jsonPath = 'data/'; //folder from where to find the jsons
 	private chartPath = 'data/chart/' //folder from where to load charts
 	private chartExtension = ".svg";
-	private jobPath = 'data/jobs/';
-	private hostPath = 'data/hosts/'
+	private jobPath = 'rawdata/jobs/';
+	private hostPath = 'rawdata/hosts/'
 
 	constructor(private http: HttpClient) { }
 

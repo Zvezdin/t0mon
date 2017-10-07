@@ -71,6 +71,8 @@ export class DatatableVisualizationComponent implements OnInit {
 	}
 
 	createRows(data:string): any{
+		if(data == undefined) return;
+		
 		var lines: string[] = data.split(/\r?\n/); //split the file into lines
 
 		var header = lines[0].split(/[ \t]+/); //the header, containing the names of the values

@@ -1,10 +1,12 @@
 
 # Application-specific ignores
 src/data
+src/rawdata
 build.sh
 upload.sh
 upload-data.sh
 download-data.sh
+download-rawdata.sh
 
 # compiled output
 /dist
